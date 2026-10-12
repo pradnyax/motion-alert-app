@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Security / Environment Variables
+.env
+
+# OpenCV test captures & video output
+*.jpg
+*.png
+*.avi
+*.mp4
+
+# VS Code settings
+.vscode/
