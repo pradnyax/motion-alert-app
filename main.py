@@ -1,3 +1,4 @@
+import glob
 import time
 
 import cv2
@@ -62,6 +63,9 @@ while True:
             status = 1
             cv2.imwrite(f"images/{count}.png", frame)
             count = count + 1
+            all_images = glob.glob("images/*.png")
+            index = int(len(all_images) / 2)
+            image_with_object = all_images[index]
 
     status_list.append(status)
     status_list = status_list[-2:]
