@@ -10,7 +10,8 @@ video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 time.sleep(1)
 
 first_frame = None
-status_list = []
+status_list = [None, None]
+count = 1
 
 while True:
     status = 0
@@ -59,6 +60,8 @@ while True:
         rectangle = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0))
         if rectangle.any():
             status = 1
+            cv2.imwrite(f"images/{count}.png", frame)
+            count = count + 1
 
     status_list.append(status)
     status_list = status_list[-2:]
