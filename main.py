@@ -20,12 +20,20 @@ while True:
 
     if first_frame is None:
         first_frame = grey_frame_gau
+        continue
 
     # Calculate the absolute difference between the first frame and the current frame
     delta_frame = cv2.absdiff(first_frame, grey_frame_gau)
 
-    # show the difference frame
-    cv2.imshow("My video", delta_frame)
+    # Apply Thresholding: If pixel diff > 30, make it 255 (white)
+    # cv2.threshold returns a tuple, we only need the second item [1] which is the actual frame
+    thresh_frame = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY)[1]
+
+    # Dilate the thresholded frame to smooth out the white blobs
+    dil_frame = cv2.dilate(thresh_frame, None, iterations=2)
+
+    # Show the final processed frame
+    cv2.imshow("My video", dil_frame)
 
     key = cv2.waitKey(1)
     if key == ord("q"):
