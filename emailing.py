@@ -16,6 +16,7 @@ RECEIVER = os.getenv("RECEIVER_EMAIL")
 
 # building the email
 def send_email(image_path):
+    print("send_email function started")
     email_message = EmailMessage()
     email_message["Subject"] = "New customer showed up!"
     email_message.set_content("Hey, we just saw a new customer!")
@@ -34,6 +35,7 @@ def send_email(image_path):
     gmail.login(SENDER, PASSWORD)
     gmail.sendmail(SENDER, RECEIVER, email_message.as_string())
     gmail.quit()
+    print("send_email function ended!!!")
     print("Email sent successfully!")
 
 
