@@ -2,14 +2,18 @@ import time
 
 import cv2
 
+from emailing import send_email
+
 # 0 targets your default laptop webcam
 # Added CAP_DSHOW for instant camera load on Windows
 video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 time.sleep(1)
 
 first_frame = None
+status_list = []
 
 while True:
+    status = 0
     check, frame = video.read()
 
     # Flip the frame horizontally to fix the mirrored view
@@ -52,7 +56,17 @@ while True:
         # Get the coordinates to draw a box around the shape
         x, y, w, h = cv2.boundingRect(contour)
         # Draw a green rectangle (0, 255, 0) with a thickness of 3 on the ORIGINAL frame
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0))
+        rectangle = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0))
+        if rectangle.any():
+            status = 1
+
+    status_list.append(status)
+    status_list = status_list[-2:]
+
+    if status_list[0] == 1 and status_list[1] == 0:
+        send_email()
+
+    print(status_list)
 
     # Show the original color video, which will now have green boxes drawn on it
     cv2.imshow("Video", frame)
